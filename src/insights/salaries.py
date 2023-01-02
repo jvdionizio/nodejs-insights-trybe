@@ -6,20 +6,28 @@ def get_max_salary(path: str) -> int:
     data = read(path)
     max_salary = 0
     for job in data:
-        if job["max_salary"] != "":
+        if job["max_salary"].isnumeric():
             if int(job["max_salary"]) > max_salary:
                 max_salary = int(job["max_salary"])
+    print(max_salary)
     return max_salary
+
+
+get_max_salary("data/jobs.csv")
 
 
 def get_min_salary(path: str) -> int:
     data = read(path)
-    min_salary = 0
+    min_salary = get_max_salary(path)
     for job in data:
-        if job["min_salary"] != "":
+        if job["min_salary"].isnumeric():
             if int(job["min_salary"]) < min_salary:
                 min_salary = int(job["min_salary"])
+    print(min_salary)
     return min_salary
+
+
+get_min_salary("data/jobs.csv")
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
