@@ -9,11 +9,7 @@ def get_max_salary(path: str) -> int:
         if job["max_salary"].isnumeric():
             if int(job["max_salary"]) > max_salary:
                 max_salary = int(job["max_salary"])
-    print(max_salary)
     return max_salary
-
-
-get_max_salary("data/jobs.csv")
 
 
 def get_min_salary(path: str) -> int:
@@ -25,9 +21,6 @@ def get_min_salary(path: str) -> int:
                 min_salary = int(job["min_salary"])
     print(min_salary)
     return min_salary
-
-
-get_min_salary("data/jobs.csv")
 
 
 def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
@@ -53,7 +46,25 @@ def matches_salary_range(job: Dict, salary: Union[int, str]) -> bool:
         If `job["min_salary"]` is greather than `job["max_salary"]`
         If `salary` isn't a valid integer
     """
-    raise NotImplementedError
+    if "min_salary" not in job or "max_salary" not in job:
+        raise ValueError("Job doesn't have min_salary or max_salary")
+
+    if not str(salary).lstrip("-").isnumeric():
+        raise ValueError("Salary isn't a valid integer")
+
+    if not str(job["min_salary"]).isnumeric():
+        raise ValueError("Job min_salary isn't a valid integer")
+
+    if not str(job["max_salary"]).isnumeric():
+        raise ValueError("Job max_salary isn't a valid integer")
+
+    if int(job["min_salary"]) > int(job["max_salary"]):
+        raise ValueError("Job min_salary is greater than max_salary")
+
+    if int(job["min_salary"]) <= int(salary) <= int(job["max_salary"]):
+        return True
+    else:
+        return False
 
 
 def filter_by_salary_range(
